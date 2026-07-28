@@ -28,10 +28,10 @@ class ManageStudents extends ManageRecords
                 ->modalFooterActionsAlignment(fn() => Alignment::End)
                 ->using(function (array $data): Student {
                     return DB::transaction(function () use ($data) {
-                        if (isset($data['email'])) {
+                        if (isset($data['user'])) {
                             $user = User::create([
                                 'name' => $data['name'], 
-                                'email' => $data['email'],
+                                'username' => $data['user']['username'],
                                 'password' => bcrypt(date('dmY', strtotime($data['birth_date']))),
                                 'role_id' => 4,
                             ]);

@@ -37,13 +37,14 @@ class PreceptorResource extends Resource
                 TextInput::make('user_id')
                     ->hidden()
                     ->label('ID User'),
+                TextInput::make('user.username')
+                    ->required()
+                    ->label('Nomor Induk Asatidz')
+                    ->formatStateUsing(fn ($record) => $record?->user?->username)
+                    ->maxLength(20),
                 TextInput::make('name')
                     ->required()
                     ->label('Nama'),
-                TextInput::make('email')
-                    ->required()
-                    ->label('Email')
-                    ->visibleOn('create'),
                 TextInput::make('phone')
                     ->tel()
                     ->label('No. Telepon'),
@@ -55,6 +56,8 @@ class PreceptorResource extends Resource
         return $table
             ->recordTitleAttribute('Asatidz')
             ->columns([
+                TextColumn::make('user.username')
+                    ->label('NIS'),
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable(),

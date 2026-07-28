@@ -46,21 +46,18 @@ class StudentResource extends Resource
             ->columns(1)
             ->components([
                 Hidden::make('user_id'),
-
                 Grid::make(12)
                     ->schema([
                         Section::make('Identitas Santri')
-                            ->description('Informasi dasar dan administrasi.')
                             ->icon('heroicon-o-identification')
                             ->columnSpan(8)
                             ->schema([
                                 Grid::make(2)
                                     ->schema([
-                                        TextInput::make('nis')
-                                            ->label('NIS')
+                                        TextInput::make('user.username')
+                                            ->label('Nomor Induk Santri')
                                             ->required()
-                                            ->numeric()
-                                            ->prefix('ID')
+                                            ->formatStateUsing(fn ($record) => $record?->user?->username)
                                             ->maxLength(20),
 
                                         Select::make('group_id')
@@ -95,15 +92,7 @@ class StudentResource extends Resource
                             ->schema([
                                 TextInput::make('phone')
                                     ->label('No. Telepon Santri')
-                                    ->tel()
-                                    ->prefix('+62'),
-
-                                TextInput::make('email')
-                                    ->label('Alamat Email')
-                                    ->email()
-                                    ->visibleOn('create')
-                                    ->required(fn (string $context): bool => $context === 'create')
-                                    ->unique('users', 'email'), 
+                                    ->tel(),
 
                                 TextInput::make('guardian_name')
                                     ->label('Nama Wali / Orang Tua')
@@ -112,8 +101,7 @@ class StudentResource extends Resource
 
                                 TextInput::make('guardian_phone')
                                     ->label('No. Telepon Wali')
-                                    ->tel()
-                                    ->prefix('+62'),
+                                    ->tel(),
                             ]),
                     ]),
             ]);
@@ -132,7 +120,7 @@ class StudentResource extends Resource
                             ->schema([
                                 Grid::make(10)
                                     ->schema([
-                                        TextEntry::make('nis')
+                                        TextEntry::make('user.username')
                                             ->label('NIS')
                                             ->weight(FontWeight::Bold)
                                             ->copyable()
@@ -149,11 +137,6 @@ class StudentResource extends Resource
                                         TextEntry::make('birth')
                                             ->label('Tempat, Tanggal Lahir')
                                             ->getStateUsing(fn ($record) => Carbon::parse($record->birth_date)->format('d F Y') ? $record->birth_place . ', ' . Carbon::parse($record->birth_date)->format('d F Y') : $record->birth_place)
-                                            ->columnSpan(5),
-
-                                        TextEntry::make('email')
-                                            ->label('Alamat Email')
-                                            ->getStateUsing(fn ($record) => $record->user?->email)
                                             ->columnSpan(5),
 
                                         TextEntry::make('created_at')
@@ -201,7 +184,7 @@ class StudentResource extends Resource
         return $table
             ->recordTitleAttribute('Santri')
             ->columns([
-                TextColumn::make('nis')
+                TextColumn::make('user.username')
                     ->label('NIS')
                     ->sortable(),
                 TextColumn::make('name')

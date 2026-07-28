@@ -30,7 +30,7 @@ class ManagePreceptors extends ManageRecords
                     return DB::transaction(function () use ($data) {
                         $user = User::create([
                             'name' => $data['name'], 
-                            'email' => $data['email'],
+                            'username' => $data['user']['username'],
                             'password' => Hash::make("123456"),
                             'role_id' => 3,
                         ]);
