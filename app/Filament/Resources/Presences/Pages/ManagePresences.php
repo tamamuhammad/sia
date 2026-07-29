@@ -107,7 +107,7 @@ class ManagePresences extends ManageRecords
                         ->label('Nama Santri')
                         ->searchable()
                         ->sortable()
-                        ->description(fn (Student $record) => $record->nis ?? '-')
+                        ->description(fn (Student $record) => $record->user?->username ?? '-')
                         ->extraHeaderAttributes([
                             'class' => 'sticky left-0 z-10 bg-gray-50 bg-gray-100 dark:bg-gray-800',
                         ])

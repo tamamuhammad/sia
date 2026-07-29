@@ -22,7 +22,7 @@ class StudentImport implements ToCollection, WithHeadingRow
                     continue;
                 }
 
-                if ($row['nis'] == '21008' && $row['email'] == 'fulan@gmail.com') {
+                if ($row['nis'] == '20002') {
                     continue;
                 }
 
@@ -39,14 +39,13 @@ class StudentImport implements ToCollection, WithHeadingRow
 
                 $user = User::create([
                     'name' => $row['nama'],
-                    'email' => $row['email'],
+                    'username' => $row['nis'],
                     'password' => Hash::make($passwordString),
                     'role_id' => 4, 
                 ]);
 
                 Student::create([
                     'user_id'       => $user->id,
-                    'nis'           => $row['nis'],
                     'name'          => $row['nama'],
                     'birth_place'   => $row['tempat_lahir'],
                     'birth_date'    => $carbonDate->toDateString(),

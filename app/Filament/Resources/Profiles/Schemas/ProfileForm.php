@@ -55,16 +55,6 @@ class ProfileForm
                                                 </div>
                                             ';
                                         }),
-                                    TextInput::make('student.nis')
-                                        ->label('NIS')
-                                        ->disabled()
-                                        ->dehydrated()
-                                        ->visible(fn () => in_array(Auth::user()->role_id, [2, 4])),
-                                        
-                                    TextInput::make('groupName')
-                                        ->label('Kelompok Mengaji')
-                                        ->disabled()
-                                        ->visible(fn () => in_array(Auth::user()->role_id, [2, 4])),
                                 ]),
                         ]),
 
@@ -77,14 +67,18 @@ class ProfileForm
                                 ->schema([
                                     TextInput::make('name')
                                         ->label('Nama Lengkap')
-                                        ->columnSpanFull()
+                                        ->columnSpan(fn () => in_array(Auth::user()->role_id, [2, 4]) ? 1 : 2)
                                         ->required(),
                                         
-                                    TextInput::make('email')
-                                        ->label('Email Pribadi')
-                                        ->email()
+                                    TextInput::make('username')
+                                        ->label('NIS')
                                         ->disabled()
                                         ->dehydrated(),
+                                        
+                                    TextInput::make('groupName')
+                                        ->label('Kelompok Mengaji')
+                                        ->disabled()
+                                        ->visible(fn () => in_array(Auth::user()->role_id, [2, 4])),
 
                                     TextInput::make('preceptor.phone')
                                         ->label('No. Telepon / WA')

@@ -51,9 +51,10 @@ class ReportResource extends Resource
                     ->schema([
                         Grid::make(14)
                             ->schema([
-                                TextEntry::make('nis')
+                                TextEntry::make('username')
                                     ->label('NIS')
                                     ->copyable()
+                                    ->getStateUsing(fn ($record) => $record?->user?->username)
                                     ->weight(FontWeight::Bold)
                                     ->icon('heroicon-m-identification')
                                     ->color('gray')
@@ -172,8 +173,9 @@ class ReportResource extends Resource
         return $table
             ->recordTitleAttribute('Report')
             ->columns([
-                TextColumn::make('nis')
+                TextColumn::make('username')
                     ->label('NIS')
+                    ->getStateUsing(fn ($record) => $record?->user?->username)
                     ->sortable(),
                 TextColumn::make('name')
                     ->label('Nama')

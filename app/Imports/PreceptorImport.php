@@ -16,14 +16,14 @@ class PreceptorImport implements ToCollection, WithHeadingRow
     {
         DB::transaction(function () use ($rows) {
             foreach ($rows as $row) {
-                if (empty($row['nama']) || $row['email'] == 'ustfulan@gmail.com') {
+                if (empty($row['nama']) || $row['username'] == '10001') {
                     continue;
                 }
 
                 $user = User::create([
                     'name' => $row['nama'],
-                    'email' => $row['email'],
-                    'password' => Hash::make($row['password'] ?? '123456'),
+                    'username' => $row['username'],
+                    'password' => Hash::make($row['password'] ?? $row['username']),
                     'role_id' => 3, 
                 ]);
 
